@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-deployment
+  labels:
+    app: web
+  annotations:
+    description: example
+spec:
+  selector:
+    matchLabels:
+      app: web
+  replicas: 3
+  progressDeadlineSeconds: 600
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      dnsPolicy: ClusterFirst
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: demo-daemonset
+  labels:
+    app: web
+  annotations:
+    description: example
+spec:
+  selector:
+    matchLabels:
+      app: web
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      dnsPolicy: ClusterFirst
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
