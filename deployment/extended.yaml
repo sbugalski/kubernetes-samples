@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: demo-simple-deployment
+  name: extended-deployment
   labels:
     app: web
   annotations:
@@ -26,6 +26,18 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: kuard
-          image: gcr.io/kuar-demo/kuard-amd64:blue
+          image: 'gcr.io/kuar-demo/kuard-amd64:blue'
           ports:
-            - containerPort: 8080
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: ENV_VARIABLE
+              value: Value
+          resources:
+            requests:
+              memory: 100Mi
+              cpu: 100m
+            limits:
+              memory: 500Mi
+              cpu: 500m
